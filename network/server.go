@@ -11,7 +11,10 @@ import (
 
 func InitServer() {
 	// create a new grpc server
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(AuthUnaryInterceptor),
+		grpc.StreamInterceptor(AuthStreamInterceptor),
+	)
 
 	// register the grpc server for reflection
 	reflection.Register(s)
