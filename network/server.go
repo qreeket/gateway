@@ -1,6 +1,8 @@
 package network
 
 import (
+	pb "github.com/qcodelabsllc/qreeket/gateway/gen"
+	svc "github.com/qcodelabsllc/qreeket/gateway/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -19,7 +21,8 @@ func InitServer() {
 	// register the grpc server for reflection
 	reflection.Register(s)
 
-	// @todo register the server
+	// register the server
+	pb.RegisterQreeketGatewayServiceServer(s, svc.NewGatewayService())
 
 	// get the port number from .env file
 	port, _ := strconv.Atoi(os.Getenv("PORT"))

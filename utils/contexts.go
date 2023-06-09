@@ -16,7 +16,11 @@ func CreateOutgoingMetadata(ctx context.Context) (context.Context, error) {
 	}
 
 	// create a new outgoing metadata
-	outgoingMD, _ := metadata.FromOutgoingContext(ctx)
+	outgoingMD := metadata.New(map[string]string{})
+
+	if len(md) == 0 {
+		return metadata.NewOutgoingContext(ctx, outgoingMD), nil
+	}
 
 	// attach the incoming metadata to the outgoing metadata
 	for k, v := range md {
